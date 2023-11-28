@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ooify.api.mapper.BookMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="me.ooify.api.entity.Book">
+    <result column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="bookcover" property="bookcover" />
+        <result column="isbn" property="isbn" />
+        <result column="publish_date" property="publishDate" />
+        <result column="create_at" property="createAt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        title, author, bookcover, isbn, publish_date, create_at
+    </sql>
+
+</mapper>
