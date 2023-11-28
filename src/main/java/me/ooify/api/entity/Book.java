@@ -3,6 +3,7 @@ package me.ooify.api.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -26,7 +27,7 @@ import lombok.experimental.Accessors;
 public class Book implements Serializable {
 
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String title;
 
@@ -36,9 +37,9 @@ public class Book implements Serializable {
 
     private String isbn;
 
-    private LocalDate publishDate;
+    private Date publishDate;
 
-    private LocalDateTime createAt;
+    private Date createAt;
 
 
 }

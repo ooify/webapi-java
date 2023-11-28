@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 @ApiModel(value = "Student对象", description = "")
 public class Student implements Serializable {
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -32,7 +32,7 @@ public class Student implements Serializable {
 
     private Integer age;
 
-    private BigDecimal grade;
+    private Double grade;
 
     private String major;
 

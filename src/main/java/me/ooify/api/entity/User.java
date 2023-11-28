@@ -2,6 +2,7 @@ package me.ooify.api.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -32,7 +33,7 @@ public class User implements Serializable {
 
     private String email;
 
-    private LocalDateTime createAt;
+    private Date createAt;
 
 
 }

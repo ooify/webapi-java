@@ -2,6 +2,7 @@ package me.ooify.api.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -25,7 +26,7 @@ import lombok.experimental.Accessors;
 public class Article implements Serializable {
 
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String title;
 
@@ -37,7 +38,7 @@ public class Article implements Serializable {
 
     private Integer likes;
 
-    private LocalDateTime publishDate;
+    private Date publishDate;
 
 
 }
