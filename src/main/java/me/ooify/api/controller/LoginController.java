@@ -30,7 +30,7 @@ public class LoginController {
             User u = userSeurvice.getOne(new QueryWrapper<User>().eq("username", username).eq("password", password));
             if (u != null) {
                 StpUtil.login(u.getId());
-                return SaResult.ok("登录成功");
+                return SaResult.ok("登录成功").setData(StpUtil.getTokenValue());
             } else {
                 return SaResult.error("用户不存在/密码错误");
             }

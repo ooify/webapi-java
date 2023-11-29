@@ -47,6 +47,7 @@ public class UserController {
         User user = userService.getOne(new QueryWrapper<User>().eq("username", email));
         return SaResult.ok("查询成功").setData(user);
     }
+
     @PostMapping
     public SaResult saveUser(@RequestBody User user) {
         boolean b = userService.save(user);

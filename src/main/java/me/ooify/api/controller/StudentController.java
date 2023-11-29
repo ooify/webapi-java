@@ -19,7 +19,21 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
     @Resource
     private StudentServiceImpl studentService;
-
+//    @Resource
+//    private Student student;
+//    @GetMapping("/t1")
+//    public SaResult t1() {
+//        student.setId(1L);
+//        student.setName("1");
+//        student.setAge(1);
+//        student.setGender(1);
+//        return SaResult.ok("t1").setData(student);
+//    }
+//    @GetMapping("/t2")
+//    public SaResult t2() {
+//        student.setAge(2);
+//        return SaResult.ok("t2").setData(student);
+//    }
     @GetMapping("/list")
     public SaResult getStudents(@RequestParam(value = "pageNum", required = false) Integer pageNum,
                                 @RequestParam(value = "pageSize", required = false) Integer pageSize,
@@ -28,6 +42,7 @@ public class StudentController {
                                 @RequestParam(value = "grade", required = false) Double grade,
                                 @RequestParam(value = "major", required = false) String major,
                                 @RequestParam(value = "age", required = false) Integer age) {
+
         Student student = new Student();
         student.setName(name);
         student.setAge(age);
