@@ -19,21 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
     @Resource
     private StudentServiceImpl studentService;
-//    @Resource
-//    private Student student;
-//    @GetMapping("/t1")
-//    public SaResult t1() {
-//        student.setId(1L);
-//        student.setName("1");
-//        student.setAge(1);
-//        student.setGender(1);
-//        return SaResult.ok("t1").setData(student);
-//    }
-//    @GetMapping("/t2")
-//    public SaResult t2() {
-//        student.setAge(2);
-//        return SaResult.ok("t2").setData(student);
-//    }
+
     @GetMapping("/list")
     public SaResult getStudents(@RequestParam(value = "pageNum", required = false) Integer pageNum,
                                 @RequestParam(value = "pageSize", required = false) Integer pageSize,
@@ -49,10 +35,28 @@ public class StudentController {
         student.setGender(gender);
         student.setGrade(grade);
         student.setMajor(major);
+        if (pageNum == null || pageNum <= 0) {
+            pageNum = 1; // 默认为第一页
+        }
+        if (pageSize == null || pageSize <= 0) {
+            pageSize = 10; // 默认每页显示10条数据
+        }
         Page<Student> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(student.getName())) {
             queryWrapper.like("name", student.getName());
+        }
+        if (student.getAge() != null) {
+            queryWrapper.eq("age", student.getAge());
+        }
+        if (student.getGender() != null) {
+            queryWrapper.eq("gender", student.getGender());
+        }
+        if (student.getGrade() != null) {
+            queryWrapper.eq("grade", student.getGrade());
+        }
+        if (StringUtils.isNotBlank(student.getMajor())) {
+            queryWrapper.like("major", student.getMajor());
         }
         return SaResult.ok("查询成功").setData(studentService.page(page, queryWrapper));
     }
