@@ -1,9 +1,9 @@
 package me.ooify.api.config;
 
 import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.util.SaResult;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import me.ooify.api.utils.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -14,27 +14,28 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public SaResult handleException(Exception e) {
-        return SaResult.error(e.getMessage());
+    public Result handleException(Exception e) {
+        return Result.error(e.getMessage());
     }
+
     @ExceptionHandler(RuntimeException.class)
-    public SaResult handleRuntimeException(RuntimeException e) {
-        return SaResult.error(e.getMessage());
+    public Result handleRuntimeException(RuntimeException e) {
+        return Result.error(e.getMessage());
     }
 
     @ExceptionHandler(ServletException.class)
-    public SaResult handleServletException(ServletException e) {
-        return SaResult.error(e.getMessage());
+    public Result handleServletException(ServletException e) {
+        return Result.error(e.getMessage());
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public SaResult handleNotFound(HttpServletRequest request) {
-        return SaResult.error("请求访问：" + request.getRequestURI() + "，接口不存在")
+    public Result handleNotFound(HttpServletRequest request) {
+        return Result.error("请求访问：" + request.getRequestURI() + "，接口不存在")
                 .setCode(404);
     }
 
     @ExceptionHandler(NotLoginException.class)
-    public SaResult handlerNotLoginException(NotLoginException e, HttpServletRequest request) {
+    public Result handlerNotLoginException(NotLoginException e, HttpServletRequest request) {
         String message = "";
         if (e.getType().equals(NotLoginException.NOT_TOKEN)) {
             message = "未提供token";
@@ -51,7 +52,7 @@ public class GlobalExceptionHandler {
         }
         Map<String, Object> error = new HashMap<>();
         error.put("error", message);
-        return SaResult.error("请求访问：" + request.getRequestURI() + "，认证失败，无法访问系统资源")
+        return Result.error("请求访问：" + request.getRequestURI() + "，认证失败，无法访问系统资源")
                 .setCode(401)
                 .setData(error);
     }

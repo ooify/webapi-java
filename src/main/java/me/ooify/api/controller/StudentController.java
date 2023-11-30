@@ -1,13 +1,13 @@
 package me.ooify.api.controller;
 
 
-import cn.dev33.satoken.util.SaResult;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
 import me.ooify.api.entity.Student;
 import me.ooify.api.service.impl.StudentServiceImpl;
+import me.ooify.api.utils.Result;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,13 +21,13 @@ public class StudentController {
     private StudentServiceImpl studentService;
 
     @GetMapping("/list")
-    public SaResult getStudents(@RequestParam(value = "pageNum", required = false) Integer pageNum,
-                                @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                @RequestParam(value = "name", required = false) String name,
-                                @RequestParam(value = "gender", required = false) Integer gender,
-                                @RequestParam(value = "grade", required = false) Double grade,
-                                @RequestParam(value = "major", required = false) String major,
-                                @RequestParam(value = "age", required = false) Integer age) {
+    public Result getStudents(@RequestParam(value = "pageNum", required = false) Integer pageNum,
+                              @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                              @RequestParam(value = "name", required = false) String name,
+                              @RequestParam(value = "gender", required = false) Integer gender,
+                              @RequestParam(value = "grade", required = false) Double grade,
+                              @RequestParam(value = "major", required = false) String major,
+                              @RequestParam(value = "age", required = false) Integer age) {
 
         Student student = new Student();
         student.setName(name);
@@ -58,39 +58,39 @@ public class StudentController {
         if (StringUtils.isNotBlank(student.getMajor())) {
             queryWrapper.like("major", student.getMajor());
         }
-        return SaResult.ok("查询成功").setData(studentService.page(page, queryWrapper));
+        return Result.ok("查询成功").setData(studentService.page(page, queryWrapper));
     }
 
     @GetMapping("/{id}")
-    public SaResult getStudentById(@PathVariable("id") Long id) {
+    public Result getStudentById(@PathVariable Long id) {
         Student author = studentService.getById(id);
-        return SaResult.ok("查询成功").setData(author);
+        return Result.ok("查询成功").setData(author);
     }
 
     @PostMapping
-    public SaResult saveStudent(@RequestBody Student student) {
+    public Result saveStudent(@RequestBody Student student) {
         if (studentService.save(student)) {
-            return SaResult.ok("添加成功");
+            return Result.ok("添加成功");
         } else {
-            return SaResult.error("添加失败");
+            return Result.error("添加失败");
         }
     }
 
     @PutMapping
-    public SaResult updateStudent(@RequestBody Student student) {
+    public Result updateStudent(@RequestBody Student student) {
         if (studentService.updateById(student)) {
-            return SaResult.ok("更新成功");
+            return Result.ok("更新成功");
         } else {
-            return SaResult.error("更新失败");
+            return Result.error("更新失败");
         }
     }
 
     @DeleteMapping("/{id}")
-    public SaResult deleteStudent(@PathVariable("id") Long id) {
+    public Result deleteStudent(@PathVariable Long id) {
         if (studentService.removeById(id)) {
-            return SaResult.ok("删除成功");
+            return Result.ok("删除成功");
         } else {
-            return SaResult.error("删除失败");
+            return Result.error("删除失败");
         }
     }
 

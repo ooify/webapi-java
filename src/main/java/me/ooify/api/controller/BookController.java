@@ -1,13 +1,13 @@
 package me.ooify.api.controller;
 
 
-import cn.dev33.satoken.util.SaResult;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
 import me.ooify.api.entity.Book;
 import me.ooify.api.service.impl.BookServiceImpl;
+import me.ooify.api.utils.Result;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -22,17 +22,18 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/book")
+
 public class BookController {
     @Resource
     private BookServiceImpl bookService;
 
     @GetMapping("/list")
-    public SaResult getBooks(@RequestParam(value = "pageNum", required = false) Integer pageNum,
-                             @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                             @RequestParam(value = "title", required = false) String title,
-                             @RequestParam(value = "author", required = false) String author,
-                             @RequestParam(value = "isbn", required = false) String isbn,
-                             @RequestParam(value = "publishDate", required = false) Date publishDate) {
+    public Result getBooks(@RequestParam(value = "pageNum", required = false) Integer pageNum,
+                           @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                           @RequestParam(value = "title", required = false) String title,
+                           @RequestParam(value = "author", required = false) String author,
+                           @RequestParam(value = "isbn", required = false) String isbn,
+                           @RequestParam(value = "publishDate", required = false) Date publishDate) {
         Book book = new Book();
         book.setTitle(title);
         book.setAuthor(author);
@@ -60,35 +61,42 @@ public class BookController {
             queryWrapper.eq("publish_date", book.getPublishDate());
         }
 
-        return SaResult.ok("查询成功").setData(bookService.page(page, queryWrapper));
+        return Result.ok("查询成功").setData(bookService.page(page, queryWrapper));
     }
+
     @GetMapping("/{id}")
-    public SaResult getBookById(@RequestParam("id") Long id) {
+    public Result getBookById(@PathVariable Long id) {
         Book book = bookService.getById(id);
-        return SaResult.ok("查询成功").setData(book);
+        if (book == null) {
+            return Result.error("未查询到相关书籍");
+        }
+        return Result.ok("查询成功").setData(book);
     }
+
     @PostMapping
-    public SaResult saveBook(@RequestBody Book book) {
+    public Result saveBook(@RequestBody Book book) {
         if (bookService.save(book)) {
-            return SaResult.ok("新增成功");
+            return Result.ok("新增成功");
         } else {
-            return SaResult.error("新增失败");
+            return Result.error("新增失败");
         }
     }
+
     @PutMapping
-    public SaResult updateBook(@RequestBody Book book) {
+    public Result updateBook(@RequestBody Book book) {
         if (bookService.updateById(book)) {
-            return SaResult.ok("更新成功");
+            return Result.ok("更新成功");
         } else {
-            return SaResult.error("更新失败");
+            return Result.error("更新失败");
         }
     }
+
     @DeleteMapping("/{id}")
-    public SaResult deleteBook(@PathVariable("id") Long id) {
+    public Result deleteBook(@PathVariable Long id) {
         if (bookService.removeById(id)) {
-            return SaResult.ok("删除成功");
+            return Result.ok("删除成功");
         } else {
-            return SaResult.error("删除失败");
+            return Result.error("删除失败");
         }
     }
 

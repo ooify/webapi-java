@@ -1,13 +1,13 @@
 package me.ooify.api.controller;
 
 
-import cn.dev33.satoken.util.SaResult;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
 import me.ooify.api.entity.Article;
 import me.ooify.api.service.impl.ArticleServiceImpl;
+import me.ooify.api.utils.Result;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -27,14 +27,14 @@ public class ArticleController {
     private ArticleServiceImpl articleService;
 
     @GetMapping("/list")
-    public SaResult getArticles(@RequestParam(value = "pageNum", required = false) Integer pageNum,
-                                @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                @RequestParam(value = "title", required = false) String title,
-                                @RequestParam(value = "author", required = false) String author,
-                                @RequestParam(value = "content", required = false) String content,
-                                @RequestParam(value = "cover", required = false) String cover,
-                                @RequestParam(value = "likes", required = false) Integer likes,
-                                @RequestParam(value = "publishDate", required = false) Date publishDate) {
+    public Result getArticles(@RequestParam(value = "pageNum", required = false) Integer pageNum,
+                              @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                              @RequestParam(value = "title", required = false) String title,
+                              @RequestParam(value = "author", required = false) String author,
+                              @RequestParam(value = "content", required = false) String content,
+                              @RequestParam(value = "cover", required = false) String cover,
+                              @RequestParam(value = "likes", required = false) Integer likes,
+                              @RequestParam(value = "publishDate", required = false) Date publishDate) {
         Article article = new Article();
         article.setTitle(title);
         article.setAuthor(author);
@@ -71,39 +71,39 @@ public class ArticleController {
         }
 
 
-        return SaResult.ok("查询成功").setData(articleService.page(page, queryWrapper));
+        return Result.ok("查询成功").setData(articleService.page(page, queryWrapper));
     }
 
     @GetMapping("/{id}")
-    public SaResult getArticleById(@RequestParam("id") Long id) {
+    public Result getArticleById(@PathVariable Long id) {
         Article article = articleService.getById(id);
-        return SaResult.ok("查询成功").setData(article);
+        return Result.ok("查询成功").setData(article);
     }
 
     @PostMapping
-    public SaResult saveArticle(@RequestBody Article article) {
+    public Result saveArticle(@RequestBody Article article) {
         if (articleService.save(article)) {
-            return SaResult.ok("新增成功");
+            return Result.ok("新增成功");
         } else {
-            return SaResult.error("新增失败");
+            return Result.error("新增失败");
         }
     }
 
     @PutMapping
-    public SaResult updateArticle(@RequestBody Article article) {
+    public Result updateArticle(@RequestBody Article article) {
         if (articleService.updateById(article)) {
-            return SaResult.ok("更新成功");
+            return Result.ok("更新成功");
         } else {
-            return SaResult.error("更新失败");
+            return Result.error("更新失败");
         }
     }
 
     @DeleteMapping("/{id}")
-    public SaResult deleteArticle(@PathVariable("id") Long id) {
+    public Result deleteArticle(@PathVariable Long id) {
         if (articleService.removeById(id)) {
-            return SaResult.ok("删除成功");
+            return Result.ok("删除成功");
         } else {
-            return SaResult.error("删除失败");
+            return Result.error("删除失败");
         }
     }
 

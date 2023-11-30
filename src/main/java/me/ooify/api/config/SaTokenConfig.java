@@ -6,14 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+//@Configuration
 public class SaTokenConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验。
         registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
                 .addPathPatterns("/**")
-                .excludePathPatterns("/register","/login","/swagger-ui/*","/swagger-resources/**","/v3/**","/swagger-ui.html");
+                .excludePathPatterns("/register", "/login", "/swagger-ui/*", "/swagger-resources/**", "/v3/**", "/swagger-ui.html");
     }
 
 }
