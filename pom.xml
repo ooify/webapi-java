@@ -12,6 +12,7 @@
     <artifactId>webapi-java</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>webapi-java</name>
+    <packaging>jar</packaging>
     <description>webapi-java</description>
     <properties>
         <java.version>17</java.version>
@@ -77,12 +78,12 @@
     </dependencies>
 
     <build>
+        <finalName>Webapi</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>me.ooify.api.WebapiJavaApplication</mainClass>
                     <image>
                         <builder>paketobuildpacks/builder-jammy-base:latest</builder>
                     </image>
